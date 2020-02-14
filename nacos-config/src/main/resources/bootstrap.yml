@@ -1,0 +1,15 @@
+server:
+  port: 8864
+spring:
+  application:
+    name: nacos-config
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #Nacos地址
+      config:
+        server-addr: localhost:8848 #Nacos地址
+        file-extension: yaml #这里我们获取的yaml格式的配置
+        group: DEFAULT_GROUP
+        shared-dataids: nacos-config.yml
+        refreshable-dataids: nacos-config.yml

@@ -1,0 +1,19 @@
+server:
+  port: 8862
+
+spring:
+  application:
+    name: nacos-ribbon
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #配置Nacos地址
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
