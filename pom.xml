@@ -18,6 +18,7 @@
         <module>nacos-user-service</module>
         <module>nacos-ribbon</module>
         <module>nacos-config</module>
+        <module>seata</module>
     </modules>
 
     <properties>
