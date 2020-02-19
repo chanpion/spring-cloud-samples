@@ -1,0 +1,33 @@
+server:
+  port: 8766
+
+spring:
+  application:
+    name: hystrix-turbine
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://cloud:123456@localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+
+turbine:
+  app-config: service-hi,service-lucy
+  combine-host-port: true
+  clusterNameExpression: new String("default")
+  aggregator:
+    cluster-config: default
