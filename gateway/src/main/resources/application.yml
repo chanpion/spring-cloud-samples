@@ -1,0 +1,21 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: dc_route
+          uri: http://172.19.80.19:16370
+          predicates:
+            - Path=/dc/{id}
+          filters:
+            - SetPath=/{id}
+        - id: kg_route
+          uri: http://172.19.80.19:13000
+          predicates:
+            - Path=/kg/stock_profile/{stock}
+          filters:
+            - SetPath=/stock_profile/{stock}
+debug: true
