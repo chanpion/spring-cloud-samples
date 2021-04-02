@@ -18,7 +18,7 @@
         <module>nacos-user-service</module>
         <module>nacos-ribbon</module>
         <module>nacos-config</module>
-        <module>seata</module>
+        <!--        <module>seata</module>-->
         <module>hystrix-turbine</module>
         <module>gateway</module>
     </modules>
@@ -29,6 +29,17 @@
         <spring-boot.version>2.2.13.RELEASE</spring-boot.version>
         <alibaba-cloud.version>2.2.1.RELEASE</alibaba-cloud.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
