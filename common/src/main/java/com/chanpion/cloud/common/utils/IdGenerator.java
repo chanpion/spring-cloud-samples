@@ -1,18 +1,13 @@
 package com.chanpion.cloud.common.utils;
 
 /**
- * @author April Chen
- * @date 2020/3/10 19:17
- */
-
-/**
  * Twitter_Snowflake<br>
  * SnowFlake的结构如下(每部分用-分开):<br>
  * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 <br>
  * 1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0<br>
  * 41位时间截(毫秒级)，注意，41位时间截不是存储当前时间的时间截，而是存储时间截的差值（当前时间截 - 开始时间截)
  * 得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序IdWorker类的startTime属性）。41位的时间截，可以使用69年，年T = (1L << 41) / (1000L * 60 * 60 * 24 * 365) = 69<br>
- * 10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId<br>
+ * 10位的数据机器位，可以部署在1024个节点，包括5位dataCenterId和5位workerId<br>
  * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号<br>
  * 加起来刚好64位，为一个Long型。<br>
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。
@@ -25,7 +20,7 @@ public class IdGenerator {
     /**
      * 开始时间截 (2015-01-01)
      */
-    private final long twepoch = 1577808000000L;
+    private final long beginEpoch = 1577808000000L;
 
     /**
      * 机器id所占的位数
@@ -40,12 +35,12 @@ public class IdGenerator {
     /**
      * 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数)
      */
-    private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
+    private final long maxWorkerId = ~(-1L << workerIdBits);
 
     /**
      * 支持的最大数据标识id，结果是31
      */
-    private final long maxDataCenterId = -1L ^ (-1L << dataCenterIdBits);
+    private final long maxDataCenterId = ~(-1L << dataCenterIdBits);
 
     /**
      * 序列在id中占的位数
@@ -70,7 +65,7 @@ public class IdGenerator {
     /**
      * 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095)
      */
-    private final long sequenceMask = -1L ^ (-1L << sequenceBits);
+    private final long sequenceMask = ~(-1L << sequenceBits);
 
     /**
      * 工作机器ID(0~31)
@@ -139,7 +134,7 @@ public class IdGenerator {
         lastTimestamp = timestamp;
 
         //移位并通过或运算拼到一起组成64位的ID
-        return ((timestamp - twepoch) << timestampLeftShift)
+        return ((timestamp - beginEpoch) << timestampLeftShift)
                 | (dataCenterId << dataCenterIdShift)
                 | (workerId << workerIdShift)
                 | sequence;
