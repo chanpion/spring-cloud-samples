@@ -21,7 +21,7 @@ public class LogUtils {
     }
 
     public static void info(String msg) {
-
+        log.info(MONITOR_MARKER, msg);
     }
 
     public static void monitor(String format, Object... msg) {
@@ -41,6 +41,16 @@ public class LogUtils {
 
         public LogContent add(String key, Object value) {
             log.put(key, value);
+            return this;
+        }
+
+        public LogContent mark(String mark) {
+            log.put("mark", mark);
+            return this;
+        }
+
+        public LogContent rt(long begin) {
+            log.put("rt", System.currentTimeMillis() - begin);
             return this;
         }
 
