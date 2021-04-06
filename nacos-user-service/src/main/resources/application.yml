@@ -8,7 +8,13 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 #配置Nacos地址
-
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      transport:
+        port: 8719
+        dashboard: localhost:8080
 management:
   endpoints:
     web:
